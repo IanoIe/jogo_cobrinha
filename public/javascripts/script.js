@@ -1,6 +1,11 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+const score = document.querySelector(".score--value")
+const finalScore = document.querySelector(".final-score > span")
+const menu = document.querySelector(".menu-screen")
+const buttonPlay = document.querySelector(".btn-Play")
+
 const audio = new Audio('../audio/audio.mp3')
 
 
@@ -14,6 +19,10 @@ const snake = [
     { x: 390, y: 240},
     { x: 420, y: 240}
 ]
+
+const incrementScore = () => {
+    
+}
 
 const randomNumber = (min, max) => {
     return Math.round(Math.random() * (max - min) + min)
@@ -124,15 +133,27 @@ const chackEat = () => {
 const checkCollision = () => {
     const head = snake[snake.length - 1]
     const canvasLimit = canvas.width - size
+    const neckIndex = snake.length - 2
 
-    const wallCollision = head.x < 0 || head.x > canvasLimit || head.y < 0 || head.y > canvasLimit
+    const wallCollision = 
+          head.x < 0 || head.x > canvasLimit || head.y < 0 || head.y > canvasLimit
+  
+    const selfCollision = snake.find((position, index) => {
+        return index < neckIndex && position.x == head.x && position.y == head.y
 
-    if (wallCollision) {
-        alert("Você perdeu!")
+    })
+    
+    
+    if (wallCollision || selfCollision) {
+        gameOver()
 
     }
 }
 
+const gameOver = () => {
+    direction = undifined
+}
+ 
 const gameLoop = () => {
     clearInterval(loopId)
 
