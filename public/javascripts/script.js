@@ -4,23 +4,19 @@ const ctx = canvas.getContext("2d");
 const score = document.querySelector(".score--value")
 const finalScore = document.querySelector(".final-score > span")
 const menu = document.querySelector(".menu-screen")
-const buttonPlay = document.querySelector(".btn-Play")
+const buttonPlay = document.querySelector(".btn-play")
 
 const audio = new Audio('../audio/audio.mp3')
 
 
 const size = 30;
 
-const snake = [
-    { x: 270, y: 240},
-    { x: 300, y: 240},
-    { x: 330, y: 240},
-    { x: 360, y: 240},
-    { x: 390, y: 240},
-    { x: 420, y: 240}
-]
+const initialPosition = { x: 270, y: 240 }
+
+let snake = [initialPosition]
 
 const incrementScore = () => {
+    score.innerText = +score.innerHTML + 10
     
 }
 
@@ -113,6 +109,7 @@ const chackEat = () => {
     const head = snake[snake.length - 1]
 
     if (head.x == food.x && head.y == food.y){
+        incrementScore()
         snake.push(head)
         audio.play()
 
@@ -151,7 +148,12 @@ const checkCollision = () => {
 }
 
 const gameOver = () => {
-    direction = undifined
+    direction = undefined
+
+    menu.style.display = "flex"
+    finalScore.innerText = score.innerText
+    canvas.style.filter = "blur(4px)"
+    
 }
  
 const gameLoop = () => {
@@ -188,3 +190,13 @@ document.addEventListener("keydown", ({key}) => {
     }
 })
 
+
+
+buttonPlay.addEventListener("click", () => {
+    score.innerText = "00"
+    menu.style.display = "none"
+    canvas.style.filter = "none"
+
+    snake = [initialPosition]
+
+})
